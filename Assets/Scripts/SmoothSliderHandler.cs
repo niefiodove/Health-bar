@@ -1,31 +1,16 @@
 using UnityEngine;
-using UnityEngine.UI;
 
-public class SmoothSliderHandler : MonoBehaviour
+public class SmoothSliderHandler : BaseSliderHandler
 {
     [SerializeField] private float _smoothSpeed = 5f;
 
-    private Slider _slider;
-    private float _maximumHealth;
     private float _targetValue;
     private bool _hasTarget = false;
 
-    private void Awake()
+    protected override void Awake()
     {
-        _slider = GetComponent<Slider>();
+        base.Awake();
         _targetValue = _slider.value;
-    }
-
-    private void OnEnable()
-    {
-        HealthBar.HealthIndicatorChanged += OnHealthChanged;
-        HealthBar.HealthIndicatorCreated += InitializeMaximumHealth;
-    }
-
-    private void OnDisable()
-    {
-        HealthBar.HealthIndicatorChanged -= OnHealthChanged;
-        HealthBar.HealthIndicatorCreated -= InitializeMaximumHealth;
     }
 
     private void Update()
@@ -36,15 +21,15 @@ public class SmoothSliderHandler : MonoBehaviour
         }
     }
 
-    private void OnHealthChanged(float health)
+    protected override void OnHealthChanged(float health)
     {
         _targetValue = health / _maximumHealth;
         _hasTarget = true;
     }
 
-    private void InitializeMaximumHealth(float health)
+    protected override void InitializeMaximumHealth(float health)
     {
-        _maximumHealth = health;
+        base.InitializeMaximumHealth(health);
         _targetValue = _slider.value;
         _hasTarget = true;
     }

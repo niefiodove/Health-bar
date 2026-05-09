@@ -1,8 +1,10 @@
 using TMPro;
 using UnityEngine;
 
-public class HelthText : MonoBehaviour
+public class Text : MonoBehaviour
 {
+    [SerializeField] private Health _health;
+
     private float _maximumHelth;
     private TextMeshProUGUI _myText;
 
@@ -18,14 +20,14 @@ public class HelthText : MonoBehaviour
 
     private void OnEnable()
     {
-        HealthBar.HealthIndicatorChanged += ChangeText;
-        HealthBar.HealthIndicatorCreated += InitializeMaximumHelth;
+            _health.HealthIndicatorChanged += ChangeText;
+            _health.HealthIndicatorCreated += InitializeMaximumHelth;
     }
 
     private void OnDisable()
     {
-        HealthBar.HealthIndicatorChanged -= ChangeText;
-        HealthBar.HealthIndicatorCreated -= InitializeMaximumHelth;
+            _health.HealthIndicatorChanged -= ChangeText;
+            _health.HealthIndicatorCreated -= InitializeMaximumHelth;
     }
 
     private void ChangeText(float health)
@@ -36,5 +38,6 @@ public class HelthText : MonoBehaviour
     private void InitializeMaximumHelth(float health)
     {
         _maximumHelth = health;
+        _myText.text = $"{health}/{_maximumHelth}";
     }
 }
