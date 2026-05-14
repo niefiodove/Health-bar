@@ -20,19 +20,28 @@ public class Health : MonoBehaviour
         HealthIndicatorCreated?.Invoke(_health);
     }
 
-    public void ChangeHealth(float delta)
+    public void TakeDamage(float damage)
     {
-        _health += delta;
-        BoundaryChecking();
+        if (damage <= 0)
+            return;
+
+        _health -= damage;
+        BoundaryCheck();
         HealthIndicatorChanged?.Invoke(_health);
     }
 
-    private void BoundaryChecking()
+    public void Heal(float healAmount)
     {
-        if (_health > _maximumHealth)
-            _health = _maximumHealth;
+        if (healAmount <= 0)
+            return;
 
-        if (_health < _minimumHealth)
-            _health = _minimumHealth;
+        _health += healAmount;
+        BoundaryCheck();
+        HealthIndicatorChanged?.Invoke(_health);
+    }
+
+    private void BoundaryCheck()
+    {
+        _health = Math.Clamp(_health, _minimumHealth, _maximumHealth);
     }
 }
